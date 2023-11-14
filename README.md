@@ -1,2 +1,2 @@
 # collaborative-board
-Collaborative board web application with React, TailwindCSS, Express.js, and MongoDB.
+Collaborative board web application with ReactJS, TailwindCSS, Express.js, Node.js, and MongoDB.
