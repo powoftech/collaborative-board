@@ -1,21 +1,27 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
+import { Note } from "./models/notes";
 
 function App() {
-	const [count, setCount] = useState(0);
+	const [notes, setNotes] = useState<Note[]>([]);
 
-	return (
-		<>
-			<h1>Collaborative Board</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
-				</button>
-			</div>
-		</>
-	);
+	useEffect(() => {
+		async function loadNotes() {
+			try {
+				const response = await fetch("/backend/api/notes", {
+					method: "GET",
+				});
+				const notes = await response.json();
+				setNotes(notes);
+			} catch (error) {
+				console.error(error);
+				alert(error);
+			}
+		}
+		loadNotes();
+	}, []);
+
+	return <div className="App">{JSON.stringify(notes)}</div>;
 }
 
 export default App;
