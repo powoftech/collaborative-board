@@ -2,7 +2,7 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import createHttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
-import NotesRoute from "./routes/note";
+import NotesRoute from "./routes/notes";
 
 const app = express();
 
