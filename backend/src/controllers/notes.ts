@@ -4,37 +4,35 @@ import createHttpError from "http-errors";
 import mongoose from "mongoose";
 import NoteModel from "../models/note";
 
-export const getNotes: RequestHandler = expressAsyncHandler(
-	async (req, res, next) => {
-		try {
-			const notes = await NoteModel.find().exec();
-			res.status(200).json(notes);
-		} catch (error) {
-			next(error);
-		}
+export const getNotes: RequestHandler = expressAsyncHandler(async (req, res, next) => {
+	try {
+		const notes = await NoteModel.find().exec();
+		res.status(200).json(notes);
+	} catch (error) {
+		next(error);
 	}
+}
 );
 
-export const getNote: RequestHandler = expressAsyncHandler(
-	async (req, res, next) => {
-		const noteId = req.params.noteId;
+export const getNote: RequestHandler = expressAsyncHandler(async (req, res, next) => {
+	const noteId = req.params.noteId;
 
-		try {
-			if (!mongoose.isValidObjectId(noteId)) {
-				throw createHttpError(400, "Invalid note ID!");
-			}
-
-			const note = await NoteModel.findById(noteId).exec();
-
-			if (!note) {
-				throw createHttpError(404, "Note not found!");
-			}
-
-			res.status(200).json(note);
-		} catch (error) {
-			next(error);
+	try {
+		if (!mongoose.isValidObjectId(noteId)) {
+			throw createHttpError(400, "Invalid note ID!");
 		}
+
+		const note = await NoteModel.findById(noteId).exec();
+
+		if (!note) {
+			throw createHttpError(404, "Note not found!");
+		}
+
+		res.status(200).json(note);
+	} catch (error) {
+		next(error);
 	}
+}
 );
 
 interface CreateNoteBody {
@@ -43,10 +41,7 @@ interface CreateNoteBody {
 }
 
 export const createNote: RequestHandler<
-	unknown,
-	unknown,
-	CreateNoteBody,
-	unknown
+	unknown, unknown, CreateNoteBody, unknown
 > = expressAsyncHandler(async (req, res, next) => {
 	const title = req.body.title;
 	const text = req.body.text;
@@ -76,10 +71,7 @@ interface UpdateNoteBody {
 }
 
 export const updateNote: RequestHandler<
-	UpdateNoteParams,
-	unknown,
-	UpdateNoteBody,
-	unknown
+	UpdateNoteParams, unknown, UpdateNoteBody, unknown
 > = expressAsyncHandler(async (req, res, next) => {
 	const noteId = req.params.noteId;
 	const newTitle = req.body.title;
@@ -111,26 +103,24 @@ export const updateNote: RequestHandler<
 	}
 });
 
-export const deleteNote: RequestHandler = expressAsyncHandler(
-	async (req, res, next) => {
-		const noteId = req.params.noteId;
+export const deleteNote: RequestHandler = expressAsyncHandler(async (req, res, next) => {
+	const noteId = req.params.noteId;
 
-		try {
-			if (!mongoose.isValidObjectId(noteId)) {
-				throw createHttpError(400, "Invalid note ID!");
-			}
-
-			const note = await NoteModel.findById(noteId).exec();
-
-			if (!note) {
-				throw createHttpError(404, "Note not found!");
-			}
-
-			await note.deleteOne();
-
-			res.sendStatus(204);
-		} catch (error) {
-			next(error);
+	try {
+		if (!mongoose.isValidObjectId(noteId)) {
+			throw createHttpError(400, "Invalid note ID!");
 		}
+
+		const note = await NoteModel.findById(noteId).exec();
+
+		if (!note) {
+			throw createHttpError(404, "Note not found!");
+		}
+
+		await note.deleteOne();
+
+		res.sendStatus(204);
+	} catch (error) {
+		next(error);
 	}
-);
+});
