@@ -1,3 +1,3 @@
-# collaborative-board
+# Collaborative Whiteboard
 
-Collaborative board web application with ReactJS, TailwindCSS, Express.js, Node.js, and MongoDB.
+Collaborative whiteboard web application with ReactJS, Express.js, Node.js, and MongoDB.
