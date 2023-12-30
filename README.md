@@ -1,3 +1,3 @@
-# Collaborative Whiteboard
+# MERN Beginner Course
 
-Collaborative whiteboard web application with ReactJS, Express.js, Node.js, and MongoDB.
+Complete MERN Beginner Course by Coding in Flow : [YouTube](https://youtu.be/FcxjCPeicvU)
