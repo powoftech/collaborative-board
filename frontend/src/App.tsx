@@ -12,7 +12,7 @@ function App() {
 	const [notes, setNotes] = useState<NoteModel[]>([]);
 
 	const [showAddEditNoteDialog, setShowAddEditNoteDialog] = useState(false);
-	const [noteToEdit, setNoteToEdit] = useState<NoteModel | null>(null)
+	const [noteToEdit, setNoteToEdit] = useState<NoteModel | null>(null);
 
 	useEffect(() => {
 		async function loadNotes() {
@@ -30,7 +30,7 @@ function App() {
 	async function deleteNote(note: NoteModel) {
 		try {
 			await NotesApi.deleteNote(note._id);
-			setNotes(notes.filter(existingNote => existingNote._id !== note._id));
+			setNotes(notes.filter((existingNote) => existingNote._id !== note._id));
 		} catch (error) {
 			console.error(error);
 			alert(error);
@@ -46,12 +46,7 @@ function App() {
 				<FaPlus />
 				Add new note
 			</Button>
-			<Row
-				xs={1}
-				md={2}
-				xl={3}
-				className="g-4"
-			>
+			<Row xs={1} md={2} xl={3} className="g-4">
 				{notes.map((note) => (
 					<Col key={note._id}>
 						<Note
@@ -63,7 +58,7 @@ function App() {
 					</Col>
 				))}
 			</Row>
-			{showAddEditNoteDialog &&
+			{showAddEditNoteDialog && (
 				<AddEditNoteDialog
 					onDismiss={() => setShowAddEditNoteDialog(false)}
 					onNoteSaved={(newNote) => {
@@ -71,21 +66,21 @@ function App() {
 						setShowAddEditNoteDialog(false);
 					}}
 				/>
-			}
-			{noteToEdit &&
+			)}
+			{noteToEdit && (
 				<AddEditNoteDialog
 					noteToEdit={noteToEdit}
 					onDismiss={() => setNoteToEdit(null)}
 					onNoteSaved={(updatedNote) => {
-						setNotes(notes.map(
-							existingNote =>
-								existingNote._id === updatedNote._id
-									? updatedNote
-									: existingNote));
+						setNotes(
+							notes.map((existingNote) =>
+								existingNote._id === updatedNote._id ? updatedNote : existingNote
+							)
+						);
 						setNoteToEdit(null);
 					}}
 				/>
-			}
+			)}
 		</Container>
 	);
 }

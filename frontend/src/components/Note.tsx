@@ -23,10 +23,7 @@ const Note = ({ note, onNoteClicked, onDeleteNoteClicked, className }: NoteProps
 	}
 
 	return (
-		<Card
-			className={`${styles.noteCard} ${className}`}
-			onClick={() => onNoteClicked(note)}
-		>
+		<Card className={`${styles.noteCard} ${className}`} onClick={() => onNoteClicked(note)}>
 			<Card.Body className={styles.cardBody}>
 				<Card.Title className={styleUtils.flexCenter}>
 					{title}
@@ -38,13 +35,9 @@ const Note = ({ note, onNoteClicked, onDeleteNoteClicked, className }: NoteProps
 						}}
 					/>
 				</Card.Title>
-				<Card.Text className={styles.cardText}>
-					{text}
-				</Card.Text>
+				<Card.Text className={styles.cardText}>{text}</Card.Text>
 			</Card.Body>
-			<Card.Footer className="text-muted">
-				{createdUpdatedText}
-			</Card.Footer>
+			<Card.Footer className="text-muted">{createdUpdatedText}</Card.Footer>
 		</Card>
 	);
 };
