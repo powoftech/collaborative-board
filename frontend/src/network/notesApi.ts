@@ -1,4 +1,4 @@
-import { Note } from "../model/note";
+import { Note } from "../models/note";
 
 async function fetchData(input: RequestInfo, init?: RequestInit) {
 	const response = await fetch(input, init);

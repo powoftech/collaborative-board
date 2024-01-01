@@ -3,7 +3,7 @@ import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import AddEditNoteDialog from "./components/AddEditNoteDialog";
 import Note from "./components/Note";
-import { Note as NoteModel } from "./model/note";
+import { Note as NoteModel } from "./models/note";
 import * as NotesApi from "./network/notesApi";
 import styles from "./styles/NotesPage.module.css";
 import styleUtils from "./styles/utils.module.css";
