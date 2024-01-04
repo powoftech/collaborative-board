@@ -32,8 +32,8 @@ app.use(
   })
 );
 
-app.use("/api/users", usersRoute);
-app.use("/api/notes", notesRoute);
+app.use("/api/users",  usersRoute);
+app.use("/api/notes",  notesRoute);
 
 app.use((req, res, next) => {
   next(createHttpError(404, "Endpoint not found!"));
