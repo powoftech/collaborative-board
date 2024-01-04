@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import NavBar from "./components/NavBar";
-import NotesPageAuthenticatedView from "./components/NotesPageAuthenticatedView";
-import NotesPageUnauthenticatedView from "./components/NotesPageUnauthenticatedView";
 import SignInModal from "./components/SignInModal";
 import SignUpModal from "./components/SignUpModal";
 import { User } from "./models/user";
 import * as NotesApi from "./network/notesApi";
-import styles from "./styles/NotesPage.module.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import NotesPage from "./pages/NotesPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   const [authenticatedUser, setAuthenticatedUser] = useState<User | null>(null);
@@ -28,21 +29,27 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <NavBar
-        authenticatedUser={authenticatedUser}
-        onSignUpClicked={() => setShowSignUpModal(true)}
-        onSignInClicked={() => setShowSignInModal(true)}
-        onSignOutSuccessful={() => setAuthenticatedUser(null)}
-      />
-      <Container className={styles.notesPage}>
-        <>
-          {authenticatedUser ? (
-            <NotesPageAuthenticatedView />
-          ) : (
-            <NotesPageUnauthenticatedView />
-          )}
-        </>
+    <BrowserRouter>
+      <div>
+        <NavBar
+          authenticatedUser={authenticatedUser}
+          onSignUpClicked={() => setShowSignUpModal(true)}
+          onSignInClicked={() => setShowSignInModal(true)}
+          onSignOutSuccessful={() => setAuthenticatedUser(null)}
+        />
+
+        <Container>
+          <Routes>
+            <Route
+              path="/"
+              element={<NotesPage authenticatedUser={authenticatedUser} />}
+            />
+
+            <Route path="/privacy" element={<PrivacyPage />} />
+
+            <Route path="/*" element={<NotFoundPage />} />
+          </Routes>
+        </Container>
 
         {showSignUpModal && (
           <SignUpModal
@@ -53,6 +60,7 @@ function App() {
             }}
           />
         )}
+
         {showSignInModal && (
           <SignInModal
             onDismiss={() => setShowSignInModal(false)}
@@ -62,8 +70,8 @@ function App() {
             }}
           />
         )}
-      </Container>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
