@@ -1,10 +1,12 @@
-import { Button, Form, Modal } from "react-bootstrap";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { User } from "../models/user";
 import * as NotesApi from "../network/notesApi";
 import { SignInInput } from "../network/notesApi";
 import styleUtils from "../styles/utils.module.css";
 import TextInputField from "./form/TextInputField";
+import { useState } from "react";
+import { UnauthorizedError } from "../errors/httpError";
 
 interface SignInModalProps {
 	onDismiss: () => void;
@@ -12,6 +14,8 @@ interface SignInModalProps {
 }
 
 const SignInModal = ({ onDismiss, onSignInSuccessful }: SignInModalProps) => {
+	const [errorText, setErrorText] = useState<string | null>(null);
+
 	const {
 		register,
 		handleSubmit,
@@ -23,8 +27,12 @@ const SignInModal = ({ onDismiss, onSignInSuccessful }: SignInModalProps) => {
 			const user = await NotesApi.signIn(signInBody);
 			onSignInSuccessful(user);
 		} catch (error) {
+			if (error instanceof UnauthorizedError) {
+				setErrorText(error.message);
+			} else {
+				alert(error);
+			}
 			console.error(error);
-			alert(error);
 		}
 	}
 
@@ -35,6 +43,7 @@ const SignInModal = ({ onDismiss, onSignInSuccessful }: SignInModalProps) => {
 			</Modal.Header>
 
 			<Modal.Body>
+				{errorText && <Alert variant="danger">{errorText}</Alert>}
 				<Form id="signInForm" onSubmit={handleSubmit(onSubmit)}>
 					<TextInputField
 						name="username"
